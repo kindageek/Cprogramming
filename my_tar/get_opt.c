@@ -1,25 +1,28 @@
 #include "my_tar.h"
 
-options* init_opt()
+static tar_options* init_opt()
 {
-    options* opt = (options*)malloc(sizeof(options*));
+    tar_options* opt = (tar_options*)malloc(sizeof(tar_options));
     
     opt->create = false;
     opt->extract = false;
     opt->archive_name = NULL;
-    opt->args = NULL;
+    opt->args = init_args();
 
     return opt;
 }
+
 
 bool is_option(char* arg)
 {
     return arg[0] == '-';
 }
 
-void set_option(options* opt, char* options, bool *is_archive_name)
+
+static tar_options* set_options(tar_options* opt, char* options, bool *is_archive_name)
 {
     int index = 0;
+    
     while(options[index] != '\0'){
         if(options[index] == 'c')
             opt->create = true;
@@ -30,44 +33,71 @@ void set_option(options* opt, char* options, bool *is_archive_name)
 
         index += 1;
     }
-}
-
-void add_to_list(options* opt, char* filename){
-    
-}
-
-options* get_opt(int ac, char** av)
-{
-    if (ac < 2) return NULL;
-    
-    options* opt = init_opt();
-    int index = 1;
-    bool is_archive_name = false;
-
-    while(index < ac){
-        if(is_option(av[index]))
-            set_option(opt, av[index] + 1, &is_archive_name);
-        else if(is_archive_name)
-            opt->archive_name = av[index];
-        else
-            add_to_list(opt, av[index]);
-        
-        index += 1;
-    }
 
     return opt;
 }
 
-void reset_args(arg* args)
+
+static bool check_options(tar_options* opt)
 {
-    while(args){
-        free(args->filename);
-        args = args->next;
+    if(opt->create && opt->extract){
+        printf("tar: Can't specify both -x and -c\n");
+        return false;
+    }else if(!opt->create && !opt->extract){
+        printf("tar: Must specify one of -c, -r, -t, -u, -x\n");
+        return false;
     }
+
+    if(opt->archive_name == NULL && opt->args->filename == NULL){
+        printf("tar: Option -f requires an argument\n");
+        printf("Usage:\n");
+        printf("  List:    tar -tf <archive-filename>\n");
+        printf("  Extract: tar -xf <archive-filename>\n");
+        printf("  Create:  tar -cf <archive-filename> [filenames...]\n");
+        printf("  Help:    tar --help\n");
+        return false;
+    }else if(opt->archive_name != NULL && opt->args->filename == NULL){
+        printf("tar: no files or directories specified\n");
+        return false;
+    }
+
+    return true;
 }
 
-void reset_options(options* opt)
+
+tar_options* get_opt(int ac, char** av)
+{   
+    tar_options* opt = init_opt();
+    int index = 1;
+    bool is_archive_name = false;
+
+    while(index < ac){
+        if(is_option(av[index])){
+            set_options(opt, av[index], &is_archive_name);
+        }else if(is_archive_name){
+            opt->archive_name = strdup(av[index]);
+            is_archive_name = false;
+        }else{
+            add_to_list(&(opt)->args, av[index]);
+        }
+
+        index += 1;
+    }
+
+    if(check_options(opt) == false){
+        reset_options(opt);
+        return NULL;
+    }
+    print_opt(opt);
+    return opt;
+}
+
+
+void reset_options(tar_options* opt)
 {
-    free(opt->archive_name);
-    reset_args(opt->args);
+    if(opt->archive_name != NULL)
+        free(opt->archive_name);
+    
+    reset_args(&(opt)->args);
+    free(opt);
 }
