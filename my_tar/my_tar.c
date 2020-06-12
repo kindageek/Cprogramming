@@ -1,5 +1,7 @@
 #include "my_tar.h"
 
+
+// main function
 int main(int ac, char** av)
 {
     tar_options *options = get_opt(ac, av);

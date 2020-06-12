@@ -56,8 +56,12 @@ typedef struct s_arg
 
 typedef struct s_options
 {
-    bool create;
-    bool extract;
+    bool c;
+    bool x;
+    bool r;
+    bool u;
+    bool t;
+    bool f;
     char *archive_name;
     struct s_arg *args;
 }tar_options;
