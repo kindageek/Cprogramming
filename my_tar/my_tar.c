@@ -2,6 +2,7 @@
 
 
 // main function
+// just my comment
 int main(int ac, char** av)
 {
     int res = 0;
