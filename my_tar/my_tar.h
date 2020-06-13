@@ -4,12 +4,15 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdarg.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #define BLOCKSIZE 512
 
 /* POSIX header.  */
 
-struct posix_header
+typedef struct posix_header
 {                               /* byte offset */
   char name[100];               /*   0 */
   char mode[8];                 /* 100 */
@@ -28,7 +31,7 @@ struct posix_header
   char devminor[8];             /* 337 */
   char prefix[155];             /* 345 */
                                 /* 500 */
-};
+}header;
 
 #define TMAGIC   "ustar"        /* ustar and a null */
 #define TMAGLEN  6
@@ -82,3 +85,7 @@ void reset_args(tar_arg** args);
 // my.c
 void my_memset(char* buff, char val, int size);
 void my_bzero(char* buff, int size);
+
+// archive.c
+int open_archive(tar_options* opt);
+int create_archive(int fd, tar_options* opt);
