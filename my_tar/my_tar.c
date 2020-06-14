@@ -19,8 +19,8 @@ int main(int ac, char** av)
 
     if(options->c)
         res += create_archive(fd, options);
-    else if(options->x)
-        res += extract_archive(fd, options);
+    // else if(options->x)
+    //     res += extract_archive(fd, options);
     
     close(fd);
     reset_options(options);

@@ -1,6 +1,5 @@
 #include <stdlib.h>
 
-
 // custom memset implementation to fill the buffer with zeros
 void my_memset(char* buff, char val, int size)
 {
@@ -13,7 +12,11 @@ void my_memset(char* buff, char val, int size)
 
 
 // custom bzero implementation which uses custom memset
-void my_bzero(char* buff, int size)
+void my_bzero(void * buff, size_t size)
 {
+    if (size == 0) {
+        return;
+    }
+    
     my_memset(buff, 0, size);
 }

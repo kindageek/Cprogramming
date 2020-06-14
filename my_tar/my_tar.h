@@ -9,6 +9,8 @@
 #include <sys/types.h>
 
 #define BLOCKSIZE 512
+#define OCTAL_BASE 8
+#define DECIMAL_BASE 10
 
 /* POSIX header.  */
 
@@ -83,9 +85,12 @@ void add_to_list(tar_arg** args, char* filename);
 void reset_args(tar_arg** args);
 
 // my.c
-void my_memset(char* buff, char val, int size);
-void my_bzero(char* buff, int size);
+void my_memset(void* buff, int val, size_t size);
+void my_bzero(void* buff, size_t size);
 
 // archive.c
 int open_archive(tar_options* opt);
 int create_archive(int fd, tar_options* opt);
+
+// conversion.c
+char* my_itoa_base(char *res, unsigned int number, int size, int base);

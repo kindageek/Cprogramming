@@ -15,6 +15,27 @@ int open_archive(tar_options* opt)
     return fd;
 }
 
+char get_typeflag(int mode)
+{
+    switch(mode & S_IFMT){
+        case S_IFREG:
+            return REGTYPE;
+        case S_IFLNK:
+            return SYMTYPE;
+        case S_IFCHR:
+            return CHRTYPE;
+        case S_IFBLK:
+            return BLKTYPE;      
+        case S_IFDIR:
+            return DIRTYPE;
+        case S_IFIFO:
+            return FIFOTYPE;
+        default:
+            return REGTYPE;
+    }
+    
+}
+
 header* get_header(char* filename)
 {
     header* header = malloc(BLOCKSIZE);
@@ -26,14 +47,17 @@ header* get_header(char* filename)
     }
 
     strncpy(header->name, filename, 100);
+    my_itoa_base(header->size, info.st_size, 12, OCTAL_BASE);
+    my_itoa_base(header->mtime, info.st_mtime, 12, OCTAL_BASE);
+    header->typeflag = get_typeflag(info.st_mode);
+
 
     return header;
 }
 
-void write_file(int fd, char* filename)
-{
-
-}
+// int write_file(int fd, char* filename)
+// { 
+// }
 
 int create_archive(int fd, tar_options* opt)
 {
@@ -44,9 +68,9 @@ int create_archive(int fd, tar_options* opt)
     while(current){
         header = get_header(current->filename);
         if(header != NULL){
-            write(header, fd, BLOCKSIZE);
-            write_file(fd, current->filename);
-            free(header);
+            write(fd, header, BLOCKSIZE);
+            // write_file(fd, current->filename);
+            // free(header);
         }else{
             res += 1;
         }
