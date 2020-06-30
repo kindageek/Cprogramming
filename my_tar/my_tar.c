@@ -2,7 +2,6 @@
 
 
 // main function
-// just my comment
 int main(int ac, char** av)
 {
     int res = 0;
@@ -19,8 +18,14 @@ int main(int ac, char** av)
 
     if(options->c)
         res += create_archive(fd, options);
-    // else if(options->x)
-    //     res += extract_archive(fd, options);
+    else if(options->x)
+        res += extract_archive(fd, options);
+    else if(options->r)
+        res += append_archive(fd, options);
+    else if(options->t)
+        res += print_archive(fd, options);
+    else if(options->u)
+        res += update_archive(fd, options);
     
     close(fd);
     reset_options(options);

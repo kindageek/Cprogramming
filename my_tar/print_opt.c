@@ -11,16 +11,14 @@ void print_opt(tar_options* opt)
     printf("Option [t]:  %s\n", opt->t ? "True" : "False");
     printf("Option [f]:  %s\n", opt->f ? "True" : "False");
     printf("Archv name:  %s\n", opt->archive_name);
-
     tar_arg* current = opt->args;
     int index = 0;
-
-    while(current && current->filename != NULL){
+    while (current && current->filename != NULL)
+    {
         printf("Argument %d:  %s\n", index, current->filename);
         current = current->next;
         index += 1;
     }
-
     printf("\n==========================\n");
     return;
 }
