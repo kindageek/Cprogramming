@@ -4,7 +4,7 @@ This program is a custom implementation of [ls](https://en.wikipedia.org/wiki/Ls
 
 ## How to use?
 
-1. Download and clone the repository using [link should be here]
+1. Download and clone the repository using using this [link](https://github.com/SanzharNussipbek/Cprogramming.git)
 2. Open terminal and go to the my_ls directory
 3. Type `make all` and press Enter
 4. Type `./ls [-R/a/t] [file1, file2, ...]`
