@@ -9,7 +9,7 @@ The function `my_readline` reads a line from the stream represented by `fd`(file
 - Only one static variable `static char leftover[READLINE_READ_SIZE + 1]` is used in this project.
 - The function works with any of streams, whether it be a **file, standard input or a redirection**
 - It can be used in a loop to read an entire file line by line;
-- It has no memory leaks or unused code lines and can be compiled with flags `-g3 -fsanitize=leak` and -Wall -Wextra -Werror
+- It has no memory leaks or unused code lines and can be compiled with flags `-g3 -fsanitize=leak` and `-Wall -Wextra -Werror`
 
 ## How to use?
 
