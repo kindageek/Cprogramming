@@ -1,6 +1,6 @@
 # My_tar project in C programming language
 
-This program is a custom implementation of GNU tar command. It was made as a group project with [Gassyr Bakubay](https://github.com/bakubay) for Qwant and Silicon Valley Qwasar coding school. The program was divided into several .c files for separate tar options. Also, it has Makefile and .h header file which includes prototypes of custom structures and all functions in the project. It also uses custom implementations of regular and popular functions from string.h library.
+This program is a custom implementation of [GNU tar](https://www.gnu.org/software/tar/manual/html_node/Standard.html) command. It was made as a group project with [Gassyr Bakubay](https://github.com/bakubay) for Qwant and Silicon Valley Qwasar coding school. The program was divided into several .c files for separate tar options. Also, it has Makefile and .h header file which includes prototypes of custom structures and all functions in the project. It also uses custom implementations of regular and popular functions from string.h library.
 
 my_tar is a command to manipulate tape archive. The first option to tar is a mode indicator from the following list:
 
@@ -42,6 +42,9 @@ The tar utility returns 0 on success, and >0 if an error occurs.
 - update.c - file to handle -u option
 - extract.c - file to handle -x option
 - print.c - file to handle -t option
+
+## My contribution
+The project was initially divided into two parts: create and extract. I am responsible for the commands -c, -u, -r, -t and overall logic and design of the project. The -x command and important parts of the tar header manipulations were done by my teammate Gassyr.
 
 ## Conclusion
 
